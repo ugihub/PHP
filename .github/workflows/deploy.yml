@@ -1,0 +1,29 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Ganti dengan branch sumber Anda jika berbeda
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false # Jangan membocorkan credential token GitHub
+
+      - name: Install dependencies
+        run: npm install # Sesuaikan dengan perintah instalasi yang Anda butuhkan
+
+      - name: Build the project
+        run: npm run build # Sesuaikan dengan perintah build proyek Anda
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs # Folder yang akan dideploy
+          destination_branch: gh-pages # Branch target
